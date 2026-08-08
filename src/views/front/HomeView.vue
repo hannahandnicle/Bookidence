@@ -280,6 +280,18 @@ import AppIcon from "@/components/common/AppIcon.vue";
  <div class="col-1"></div>
   
 </section>
+
+<section class="intro-read-together">
+  <div class="content-read-together">
+    <p class="title-read-together">一個人讀，也可以不孤單。</p>
+    <p class="desc-read-together">Bookidence 陪你找到願意一起翻開同一本書的人，把讀完的感動說說訴說給懂的人聽。</p>
+  </div>
+  <div class="img-read-together">
+    <img src="" alt="">
+  </div>
+</section>
+
+
 </template>
 
 <style lang="scss" scoped>
