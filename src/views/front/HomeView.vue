@@ -281,14 +281,19 @@ import AppIcon from "@/components/common/AppIcon.vue";
   
 </section>
 
-<section class="intro-read-together">
-  <div class="content-read-together">
-    <p class="title-read-together">一個人讀，也可以不孤單。</p>
+<section class="container intro-read-together">
+  <div class="col-1"></div>
+  <div class="col-3 content-read-together">
+    <p class="title-read-together">一個人讀，<br>也可以不孤單。</p>
     <p class="desc-read-together">Bookidence 陪你找到願意一起翻開同一本書的人，把讀完的感動說說訴說給懂的人聽。</p>
+    <AppButton>開啟我的共讀旅程<AppIcon name="arrow-right"/>
+      </AppButton>
   </div>
-  <div class="img-read-together">
-    <img src="" alt="">
+  <div class="col-7 img-read-together">
+    <img src="/src/assets/images/home-element/home-banner-02.png" alt="">
+    
   </div>
+  <div class="col-1"></div>
 </section>
 
 
@@ -621,6 +626,7 @@ import AppIcon from "@/components/common/AppIcon.vue";
 
 .feature-book-wish-pool{
   align-items: stretch;
+  
 }
 
 .img-feature-book-wish-pool{
@@ -629,5 +635,27 @@ import AppIcon from "@/components/common/AppIcon.vue";
 .text-feature-book-wish-pool{
   margin: auto auto;
 
+}
+
+//margin-bottom: 120px;
+
+.title-read-together{
+  font-size:$h2-size;
+  font-weight: $heading-weight;
+  padding-bottom:$spacing-lg;
+}
+
+.desc-read-together{
+  font-size:$p-md-size;
+  padding-bottom: 60px;
+
+}
+.intro-read-together{
+  margin-block: 120px;
+  align-items: stretch;
+
+}
+.img-read-together{
+  margin: auto auto;
 }
 </style>
