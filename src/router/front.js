@@ -3,7 +3,6 @@ import FrontLayout from "../layouts/FrontLayout.vue";
 import GuildSidebarLayout from "../layouts/GuildSidebarLayout.vue";
 
 export default [
-
   {
     path: "/",
     component: FrontLayout,
@@ -57,46 +56,73 @@ export default [
       },
       {
         path: "guilds/:id",
-        name: "guild-detail",
-        component: () => import("../views/front/GuildDetailView.vue"),
-      },
-       {
-        path: '/news', 
-        name: "news",
-        component: () => import("../views/front/NewsView.vue"), 
-      },
-      {
-        path: '/create-guilds', 
-        name: "create-guilds",
-        component: () => import("../views/front/CreateBookGuilds.vue"), 
-      },
-      {
-        path: "",
-        component: GuildSidebarLayout,
         children: [
           {
-            path: "events/:id/apply",
-            name: "event-apply",
-            component: () => import("../views/front/EventApply.vue"),
+            path: "",
+            name: "guild-detail",
+            component: () => import("../views/front/GuildDetailView.vue"),
           },
           {
-            path: "events/:id",
-            name: "event-detail",
-            component: () => import("../views/front/EventView.vue"),
+            // 公會內部功能頁（活動、檢舉、設定、討論區）共用 GuildSidebarLayout 外框
+            path: "",
+            component: GuildSidebarLayout,
+            meta: { noPadding: true },
+            children: [
+              {
+                path: "events/apply",
+                name: "event-apply",
+                component: () => import("../views/front/EventApply.vue"),
+              },
+              {
+                path: "events/:eventId",
+                name: "event-detail",
+                component: () => import("../views/front/EventView.vue"),
+              },
+              {
+                path: "report",
+                name: "report",
+                component: () => import("../views/front/Report.vue"),
+              },
+              {
+                path: "report/:reportId",
+                name: "report-detail",
+                component: () => import("../views/front/ReportDetails.vue"),
+              },
+              {
+                path: "settings",
+                name: "guild-settings",
+                component: () => import("../views/front/GuildSettingsView.vue"),
+              },
+              {
+                path: "reading-schedule",
+                name: "guild-reading-schedule",
+                component: () => import("../views/front/GuildReadingScheduleView.vue"),
+              },
+              {
+                path: "discussion/:milestoneId",
+                name: "guild-discussion",
+                component: () => import("../views/front/GuildDiscussionView.vue"),
+              },
+            ],
           },
-          // {
-          //   path: "aaa/:id",
-          //   name: "aaa-detail",
-          //   component: () => import("../views/front/EventView.vue"),
-          // },
         ],
+      },
+      {
+        path: "news",
+        name: "news",
+        component: () => import("../views/front/NewsView.vue"),
+      },
+      {
+        path: "create-guilds",
+        name: "create-guilds",
+        component: () => import("../views/front/CreateBookGuilds.vue"),
       },
       {
         path: "test",
         name: "test",
         component: () => import("../views/front/TestView.vue"),
       },
-    ]
+    ],
   },
   {
     path: "/login",
@@ -108,6 +134,4 @@ export default [
     name: "register",
     component: () => import("../views/front/RegisterView.vue"),
   },
-  
-
-]
+];

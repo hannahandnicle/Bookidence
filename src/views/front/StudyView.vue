@@ -5,6 +5,7 @@ import BookroomPanelAddArea from "../../layouts/book-room/BookroomPanelAddArea.v
 import BookroomPanelProfileArea from "../../layouts/book-room/BookroomPanelProfileArea.vue";
 import BookroomPanelAppearanceArea from "../../layouts/book-room/BookroomPanelAppearanceArea.vue";
 import BookroomPanelReviewWriteArea from "../../layouts/book-room/BookroomPanelReviewWriteArea.vue";
+import BookroomPanelWriteTable from "../../layouts/book-room/BookroomPanelWriteTable.vue";
 
 export default {
   components: {
@@ -13,11 +14,13 @@ export default {
     BookroomPanelAddArea,
     BookroomPanelProfileArea,
     BookroomPanelAppearanceArea,
-    BookroomPanelReviewWriteArea
+    BookroomPanelReviewWriteArea,
+    BookroomPanelWriteTable,
   },
   data() {
     return {
       isPanelOpen: false, //預設是關閉
+      isWritingReview: false, //顯示書桌的開關
       tabs: [
         {
           id: 1,
@@ -37,7 +40,16 @@ export default {
         },
       ],
       activeTab: 1,
+      selectedBook: null,
     };
+  },
+  watch: {
+    activeTab(newTab) {
+      if (newTab !== 4) {
+        this.selectedBook = null;
+        this.isWritingReview = false;
+      }
+    },
   },
   methods: {
     togglePanel() {
@@ -45,6 +57,13 @@ export default {
     },
     closePanel() {
       this.isPanelOpen = false;
+      this.isWritingReview = false;
+      this.selectedBook = null;
+    },
+    startWriteReview() {
+      if (this.selectedBook) {
+        this.isWritingReview = true;
+      }
     },
   },
 };
@@ -69,7 +88,13 @@ export default {
       />
 
       <!-- 鏡子-web -->
-      <button class="studyroom-preference-btns-web" @click=" isPanelOpen = true;activeTab = 3">
+      <button
+        class="studyroom-preference-btns-web"
+        @click="
+          isPanelOpen = true;
+          activeTab = 3;
+        "
+      >
         <img
           class="studyroom-preference-btn-web"
           src="../../assets/images/book-room-element/layout-web/studyroom-preference-btn-web.png"
@@ -86,7 +111,13 @@ export default {
       </button>
 
       <!-- 人物-web -->
-      <button class="studyroom-profile-btns-web" @click=" isPanelOpen = true;activeTab = 1">
+      <button
+        class="studyroom-profile-btns-web"
+        @click="
+          isPanelOpen = true;
+          activeTab = 1;
+        "
+      >
         <img
           class="studyroom-profile-btn-web"
           src="../../assets/images/book-room-element/layout-web/studyroom-profile-btn-web.png"
@@ -103,7 +134,13 @@ export default {
       </button>
 
       <!-- 書籍專區-web -->
-      <button class="studyroom-bookarea-btns-web" @click=" isPanelOpen = true;activeTab = 2">
+      <button
+        class="studyroom-bookarea-btns-web"
+        @click="
+          isPanelOpen = true;
+          activeTab = 2;
+        "
+      >
         <img
           class="studyroom-bookarea-btn-web"
           src="../../assets/images/book-room-element/layout-web/studyroom-bookarea-btn-web.png"
@@ -134,7 +171,12 @@ export default {
         src="../../assets/images/book-room-element/layout-mobile/studyroom-cover-mobile.jpeg"
         alt="studyroom-cover-mobile"
       />
-      <button @click=" isPanelOpen = true;activeTab = 2">
+      <button
+        @click="
+          isPanelOpen = true;
+          activeTab = 2;
+        "
+      >
         <img
           class="studyroom-bookarea-btn-hover-mobile"
           src="../../assets/images/book-room-element/layout-mobile/studyroom-bookarea-btn-hover-mobile.png"
@@ -145,7 +187,12 @@ export default {
         </div>
       </button>
 
-      <button @click=" isPanelOpen = true;activeTab = 3">
+      <button
+        @click="
+          isPanelOpen = true;
+          activeTab = 3;
+        "
+      >
         <img
           class="studyroom-preference-btn-hover-mobile"
           src="../../assets/images/book-room-element/layout-mobile/studyroom-preference-btn-hover-mobile.png"
@@ -156,7 +203,12 @@ export default {
         </div>
       </button>
 
-      <button @click=" isPanelOpen = true;activeTab = 1">
+      <button
+        @click="
+          isPanelOpen = true;
+          activeTab = 1;
+        "
+      >
         <img
           class="studyroom-profile-btn-hover-mobile"
           src="../../assets/images/book-room-element/layout-mobile/studyroom-profile-btn-hover-mobile.png"
@@ -169,10 +221,29 @@ export default {
     </div>
     <div class="study-stage-setting-panel" v-show="isPanelOpen">
       <div class="study-stage-setting-overlay" @click="closePanel"></div>
-      <div class="study-stage-setting-panel-inner">
+
+      <BookroomPanelWriteTable
+        v-if="activeTab == 4 && isWritingReview"
+        @back="
+          isWritingReview = false;
+          selectedBook = null;
+        "
+      ></BookroomPanelWriteTable>
+
+      <div v-else class="study-stage-setting-panel-inner">
+        <button
+          class="prepare-write-review"
+          :class="{
+            'is-active': activeTab == 4,
+            'has-selected-book':
+              selectedBook !== null && isWritingReview == false,
+          }"
+          @click="startWriteReview"
+        ></button>
         <!-- 撰寫書籍的暗面 -->
-         <div class="write-review-overlay" v-show="activeTab==4"></div>
+        <div class="write-review-overlay" v-show="activeTab == 4"></div>
         <!-- 設定面板內容置放區 -->
+
         <div class="study-stage-setting-panel-content">
           <BookroomPanelBbookArea
             v-if="activeTab == 2"
@@ -180,12 +251,13 @@ export default {
           <BookroomPanelProfileArea
             v-else-if="activeTab == 1"
           ></BookroomPanelProfileArea>
-          <BookroomPanelAppearanceArea
-          v-else-if="activeTab == 3">
-        </BookroomPanelAppearanceArea>
-        <BookroomPanelReviewWriteArea
-        v-else-if="activeTab == 4">
-      </BookroomPanelReviewWriteArea>
+          <BookroomPanelAppearanceArea v-else-if="activeTab == 3">
+          </BookroomPanelAppearanceArea>
+          <BookroomPanelReviewWriteArea
+            v-else-if="activeTab == 4"
+            @select-book="selectedBook = $event"
+          >
+          </BookroomPanelReviewWriteArea>
         </div>
         <div class="studyroom-setting-panel-title">
           <span class="">我的書房</span>
@@ -529,11 +601,20 @@ export default {
   width: 80%;
   max-width: 1000px;
   aspect-ratio: 984 / 609;
+  z-index: 15;
+}
+
+// 把面板圖案獨立成偽元素，讓 .prepare-write-review 能跟它比 z-index
+.study-stage-setting-panel-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background-image: url("../../assets/images/book-room-element/studyroom-btn-setting-panel.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  z-index: 15;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .study-stage-setting-overlay {
@@ -584,7 +665,7 @@ export default {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-z-index: 20;
+  z-index: 20;
 
   & span {
     font-size: $p-md-size;
@@ -622,6 +703,28 @@ z-index: 20;
     transform: scale(1.05);
   }
 }
+.prepare-write-review {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 60px;
+  aspect-ratio: 70 / 246;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url(../../assets/button/prepare-write-review.png);
+  transform: translateY(-50%);
+  z-index: 0; // 低於 ::before 的面板圖案（z-index:1），藏在後面
+  transition: transform 0.3s ease;
+}
+
+// 點到「撰寫心得」時，滑出到面板右側邊緣
+.prepare-write-review.is-active {
+  transform: translate(100%, -50%);
+}
+
+.prepare-write-review.is-active.has-selected-book {
+  background-image: url(../../assets/button/ready-write-review.png);
+}
 
 //RWD
 @media (max-width: 960px) {
@@ -638,7 +741,10 @@ z-index: 20;
     width: 90%;
     max-width: 393px;
     aspect-ratio: 358 / 600;
-    background-image: url("../../assets/images/book-room-element/studyroom-btn-setting-panel-mobile.png");
+
+    &::before {
+      background-image: url("../../assets/images/book-room-element/studyroom-btn-setting-panel-mobile.png");
+    }
 
     .write-review-overlay {
       -webkit-mask-image: url("../../assets/images/book-room-element/studyroom-btn-setting-panel-mobile.png");
