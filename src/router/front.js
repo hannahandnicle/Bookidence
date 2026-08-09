@@ -60,6 +60,16 @@ export default [
         name: "guild-detail",
         component: () => import("../views/front/GuildDetailView.vue"),
       },
+       {
+        path: '/news', 
+        name: "news",
+        component: () => import("../views/front/NewsView.vue"), 
+      },
+      {
+        path: '/create-guilds', 
+        name: "create-guilds",
+        component: () => import("../views/front/CreateBookGuilds.vue"), 
+      },
       {
         path: "",
         component: GuildSidebarLayout,
@@ -97,5 +107,7 @@ export default [
     path: "/register",
     name: "register",
     component: () => import("../views/front/RegisterView.vue"),
-  }
+  },
+  
+
 ]
