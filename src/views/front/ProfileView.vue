@@ -1,6 +1,14 @@
+<script setup>
+import AppButton from "@/components/common/AppButton.vue";
+import AppIcon from "@/components/common/AppIcon.vue";
+import ProfileSideBar from "@/components/common/ProfileSideBar.vue";
+
+</script>
+
+
 <template>
   <div>
-    <h1>會員專區</h1>
-    <p>這是前台「會員專區」頁面，等功能開發時再把內容補上。</p>
+    
+     <ProfileSideBar />
   </div>
 </template>
