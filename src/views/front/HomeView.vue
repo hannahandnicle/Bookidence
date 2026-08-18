@@ -637,7 +637,7 @@ import AppIcon from "@/components/common/AppIcon.vue";
 
 }
 
-//margin-bottom: 120px;
+
 
 .title-read-together{
   font-size:$h2-size;
